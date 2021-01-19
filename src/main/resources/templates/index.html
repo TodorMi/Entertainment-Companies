@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game Companies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+        
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+
+</head>
+    
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+         <form th:action="@{/}" class="form-inline mr-auto mt-2 mt-lg-0">
+                <input class="form-control mr-sm-2" placeholder="Search" type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
+                <input class="btn btn-outline-secondary my-2 my-sm-0" type="submit" value="Search"  /> &nbsp;
+                <input class="btn btn-outline-secondary my-2 my-sm-0" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+        </form>
+        <ul class="navbar-nav my-2 my-lg-0 ">
+            <li class="nav-item">
+              <a th:href = "@{/showNewCompany}" class="nav-link"> Add new Company </a>
+            </li>
+            <li class="nav-item">
+              <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link">Logout</a>
+            </li>
+          </ul>      
+    </nav> <br><br>
+    <div class="text-center ">
+        <h1 class="text-center ">Companies</h1>
+           
+        <br><br>
+        <div class="container">
+        <table class = "table table-responsive-md">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Founder/s</th>
+                    <th scope="col">Founded</th>
+                    <th scope="col">Headquarters</th>
+                    <th colspan="2" scope="col">Actions</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="company : ${listCompanies}">
+                    <td th:text="${company.name}"></td>
+                    <td th:text="${company.founder}"></td>
+                    <td th:text="${company.founded}"></td>
+                    <td th:text="${company.headquarters}"></td>
+                    <td> 
+                        <a th:href="@{/formEdit/{id}(id=${company.id})}" class="btn btn-warning">Edit</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/deleteCompany/{id}(id=${company.id})}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</body>
+</html>
